@@ -5,15 +5,23 @@ nixPkgs = [
   "npm",
   "ffmpeg",
   "libopus",
-  "libogg"
+  "libogg",
+  "yt-dlp",
+  "ca-certificates"
 ]
 
 [phases.install]
 cmds = [
-  "npm install"
-  # evita que npm start tarde demasiado en fallar si falta node
+  "npm install",
+  # instala yt-dlp por si el paquete del sistema no aparece en el runner
+  "apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*",
+  "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp",
+  "chmod +x /usr/local/bin/yt-dlp"
 ]
+
 
 [start]
 cmd = "cd js-kaivoxx-bot && npm start"
+
+
 

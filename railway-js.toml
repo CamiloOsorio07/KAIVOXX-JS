@@ -21,6 +21,11 @@ pkgs = [
   "ca-certificates"
 ]
 
+# Si Railway/Nixpacks no instala yt-dlp por nombre del paquete,
+# al menos fuerza que se ejecute en el contenedor con PATH
+# (no es garantía, depende del runner).
+
+
 [start]
 # Ejecuta SOLO el bot JS
 cmd = "cd js-kaivoxx-bot && npm start"
