@@ -83,13 +83,25 @@ async function cmdPlay(message, search) {
     return;
   }
 
-  // inputType: opus/ogg
+  // Log del stderr de yt-dlp para diagnosticar por qué no suena.
+  // (Railway a veces oculta el error del encoder si no hay salida.)
+  try {
+    let stderrBuf = '';
+    yt.stderr?.on('data', (d) => {
+      stderrBuf += d.toString('utf8');
+      // Evita spamear demasiado
+      if (stderrBuf.length > 4000) stderrBuf = stderrBuf.slice(-4000);
+    });
+  } catch {}
+
+  // inputType: opus
   try {
     await playFromStream({ player, stream: yt.stream, inputType: 'opus' });
   } catch (e) {
     await message.channel.send({ embeds: [embedError('Error reproduciendo', String(e?.message || e))] });
     return;
   }
+
 
   await message.channel.send({ embeds: [embedMusic('Reproducción en curso', `🎧 Reproduciendo: **${search}**`)] });
 }

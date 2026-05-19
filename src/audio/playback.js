@@ -7,7 +7,7 @@ const { createAudioResource } = require('@discordjs/voice');
  * Aquí solo se ocupa de poner el resource en el player.
  */
 
-async function playFromStream({ player, stream, inputType = 'ogg/opus' }) {
+async function playFromStream({ player, stream, inputType = 'opus' }) {
   const resource = createAudioResource(stream, {
     inputType
   });
@@ -19,4 +19,5 @@ async function playFromStream({ player, stream, inputType = 'ogg/opus' }) {
 module.exports = {
   playFromStream
 };
+
 
