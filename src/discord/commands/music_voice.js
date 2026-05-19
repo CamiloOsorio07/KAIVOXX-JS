@@ -83,13 +83,12 @@ async function cmdPlay(message, search) {
     return;
   }
 
-  // Log del stderr de yt-dlp para diagnosticar por qué no suena.
-  // (Railway a veces oculta el error del encoder si no hay salida.)
+  // Diagnóstico: volcar stderr para ver por qué yt-dlp/ffmpeg falla en Railway.
+  let stderrBuf = '';
   try {
-    let stderrBuf = '';
     yt.stderr?.on('data', (d) => {
-      stderrBuf += d.toString('utf8');
-      // Evita spamear demasiado
+      const chunk = d.toString('utf8');
+      stderrBuf += chunk;
       if (stderrBuf.length > 4000) stderrBuf = stderrBuf.slice(-4000);
     });
   } catch {}
@@ -98,10 +97,17 @@ async function cmdPlay(message, search) {
   try {
     await playFromStream({ player, stream: yt.stream, inputType: 'opus' });
   } catch (e) {
-    await message.channel.send({ embeds: [embedError('Error reproduciendo', String(e?.message || e))] });
+    await message.channel.send({
+      embeds: [
+        embedError(
+          'Error reproduciendo',
+          `msg: ${String(e?.message || e)}\n\nyt-dlp/ffmpeg stderr (últimos bytes):\n\na) ${stderrBuf || '(sin stderr)'}
+          `
+        )
+      ]
+    });
     return;
   }
-
 
   await message.channel.send({ embeds: [embedMusic('Reproducción en curso', `🎧 Reproduciendo: **${search}**`)] });
 }

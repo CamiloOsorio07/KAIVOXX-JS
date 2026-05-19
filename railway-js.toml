@@ -23,6 +23,7 @@ pkgs = [
 
 [start]
 # Ejecuta SOLO el bot JS
-cmd = "cd js-kaivoxx-bot && npm start"
+cmd = "npm start"
+
 
 
