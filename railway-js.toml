@@ -2,8 +2,24 @@
 builder = "Nixpacks"
 
 [build.nixpacks]
-# Asegura un build 100% JS (incluye node/npm) para que NO intente usar Python.
-pkgs = ["nodejs", "npm", "ffmpeg", "libopus", "libogg"]
+# Asegura un build 100% JS para que NO intente usar Python.
+# Para música en voz necesitamos:
+# - ffmpeg (para transcode)
+# - opus/ogg (dependencias de ffmpeg)
+# - yt-dlp (para obtener el stream desde YouTube/URLs)
+# - ca-certificates (descargas https)
+#
+# Nota: algunos paquetes pueden no existir en el runner; si falla, Railway te mostrará error
+# y ajusto el nombre exacto.
+pkgs = [
+  "nodejs",
+  "npm",
+  "ffmpeg",
+  "libopus",
+  "libogg",
+  "yt-dlp",
+  "ca-certificates"
+]
 
 [start]
 # Ejecuta SOLO el bot JS
