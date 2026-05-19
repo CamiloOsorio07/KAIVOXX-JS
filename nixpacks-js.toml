@@ -12,12 +12,9 @@ nixPkgs = [
 
 [phases.install]
 cmds = [
-  "npm install",
-  # instala yt-dlp por si el paquete del sistema no aparece en el runner
-  "apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*",
-  "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp",
-  "chmod +x /usr/local/bin/yt-dlp"
+  "npm ci"
 ]
+
 
 
 [start]
