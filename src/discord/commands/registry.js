@@ -1,5 +1,5 @@
 const { helpCommand } = require('./help');
-const { musicCommands } = require('./music');
+const { musicCommandsVoice } = require('./music_voice');
 const { aiCommands } = require('./ai');
 
 function registerCommands() {
@@ -11,8 +11,8 @@ function registerCommands() {
   map.set('commands', helpCommand);
   map.set('comandos', helpCommand);
 
-  // music
-  for (const [k, v] of Object.entries(musicCommands)) map.set(k, v);
+  // music/voice (usa implementación real)
+  for (const [k, v] of Object.entries(musicCommandsVoice)) map.set(k, v);
 
   // ai
   for (const [k, v] of Object.entries(aiCommands)) map.set(k, v);
@@ -21,4 +21,5 @@ function registerCommands() {
 }
 
 module.exports = { registerCommands };
+
 
