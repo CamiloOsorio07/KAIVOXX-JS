@@ -1,0 +1,19 @@
+[phases.setup]
+# Asegura que exista node/npm (Nixpacks usa esta lista para instalar pkgs)
+nixPkgs = [
+  "nodejs",
+  "npm",
+  "ffmpeg",
+  "libopus",
+  "libogg"
+]
+
+[phases.install]
+cmds = [
+  "npm install"
+  # evita que npm start tarde demasiado en fallar si falta node
+]
+
+[start]
+cmd = "cd js-kaivoxx-bot && npm start"
+
